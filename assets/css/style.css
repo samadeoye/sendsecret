@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,700&display=swap');
+
+body, h1, h2, h3, h4, h5, h6, p, a, label, button, input
+{
+    font-family: 'Nunito', sans-serif;
+}
+header
+{
+    margin-bottom: 50px;
+    background-color: #0088fb;
+}
+header .nav a, header .logo a
+{
+    color: #ffffff;
+}
+header .bg-image
+{
+    background-image :url('../images/page-banner.jpg');
+    height: 400px;
+    margin-top: 45px;
+}
+header .dropdown .dropdown-menu a
+{
+    color: #0088fb;
+}
+header .mask
+{
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+}
+.navbar
+{
+    background-color: #0088fb;
+}
+.navbar-collapse a, .navbar .navbar-toggler
+{
+    color: #ffffff;
+}
+.navbar-collapse a:hover, .navbar-collapse a:active, .navbar-collapse a:focus
+{
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+footer
+{
+    margin-top: 50px;
+    background-color: #0088fb;
+}
+.send-secret-form
+{
+    background-color: #0088fb;
+    padding: 2rem 2rem 2rem 2rem;
+    border: 1px solid rgb(18, 11, 76);
+    color: #ffffff;
+}
+#encodeDecodeForm .nav-link
+{
+    color: #ffffff;
+}
+#encodeDecodeForm .nav-item .active
+{
+    color: #000000 !important;
+}
+.login-cta
+{
+    background-color:  #efefef;
+}
