@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand text-white text-decoration-none fw-bold pe-4" href="<?=SITE_URL;?>"><?=SITE_NAME;?></a>
+            <a class="navbar-brand text-white text-decoration-none fw-bold pe-4" href="<?=DEF_FULL_BASE_PATH_URL;?>"><?=SITE_NAME;?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sendSecretNavBar" aria-controls="sendSecretNavBar" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
@@ -13,16 +13,16 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="<?=SITE_URL;?>">Home</a>
+                            <a class="nav-link <?=markAsActivePage('index.php');?>" aria-current="page" href="<?=DEF_FULL_BASE_PATH_URL;?>">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login">Login</a>
+                            <a class="nav-link <?=markAsActivePage('login.php');?>" href="auth/login">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="register">Register</a>
+                            <a class="nav-link <?=markAsActivePage('register.php');?>" href="auth/register">Register</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle <?=markAsActivePage('account');?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Account
                             </a>
                             <ul class="dropdown-menu">
@@ -31,7 +31,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="logout">Logout</a></li>
+                                <li><a class="dropdown-item cursor-pointer" onclick="doOpenLogoutModal()">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -39,16 +39,4 @@
             </div>
         </div>
     </nav>
-
-    <div class="text-center bg-image">
-        <div class="mask">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="text-white">
-                    <h1 class="mb-3"><?=SITE_NAME;?></h1>
-                    <h5 class="mb-3 px-2">Encode and decode short messages in few clicks</h5>
-                    <a class="btn btn-outline-light btn-lg" href="#encodeDecodeForm" role="button">Get Started</a>
-                </div>
-            </div>
-        </div>
-    </div>
 </header>

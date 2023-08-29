@@ -7,13 +7,13 @@
                     <div class="d-flex justify-content-center align-items-center">
                         <ul class="list-inline list-unstyled">
                             <li class="list-inline-item">
-                                <a href="<?=SITE_URL;?>" class="text-white text-decoration-none">Home</a> | 
+                                <a href="<?=DEF_FULL_BASE_PATH_URL;?>" class="text-white text-decoration-none">Home</a> | 
                             </li>
                             <li class="list-inline-item">
-                                <a href="login" class="text-white text-decoration-none">Login</a> | 
+                                <a href="auth/login" class="text-white text-decoration-none">Login</a> | 
                             </li>
                             <li class="list-inline-item">
-                                <a href="register" class="text-white text-decoration-none">Register</a> | 
+                                <a href="auth/register" class="text-white text-decoration-none">Register</a> | 
                             </li>
                         </ul>
                     </div>

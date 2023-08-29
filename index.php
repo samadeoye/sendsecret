@@ -4,11 +4,23 @@ require_once 'includes/head.php';
 require_once 'includes/header.php';
 ?>
 
+<div class="text-center header-bg-image">
+    <div class="mask">
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="text-white">
+                <h1 class="mb-3"><?=SITE_NAME;?></h1>
+                <h5 class="mb-3 px-2">Encode and decode short messages in few clicks</h5>
+                <a class="btn btn-outline-light btn-lg" href="#encodeDecodeForm" role="button">Get Started</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid login-cta">
     <div class="row">
         <div class="col-md-12 pt-5 pb-4 text-center">
             <p>Like to sign up? When you do, you can see your sent messages</p>
-            <a href="register" class="btn btn-dark mb-3">SIGN UP</a>
+            <a href="auth/register" class="btn btn-dark mb-3">SIGN UP</a>
         </div>
     </div>
 </div>
