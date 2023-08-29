@@ -4,11 +4,6 @@ body, h1, h2, h3, h4, h5, h6, p, a, label, button, input
 {
     font-family: 'Nunito', sans-serif;
 }
-header
-{
-    margin-bottom: 50px;
-    background-color: #0088fb;
-}
 header .nav a, header .logo a
 {
     color: #ffffff;
@@ -17,7 +12,6 @@ header .bg-image
 {
     background-image :url('../images/page-banner.jpg');
     height: 400px;
-    margin-top: 45px;
 }
 header .dropdown .dropdown-menu a
 {
@@ -28,18 +22,32 @@ header .mask
     background-color: rgba(0, 0, 0, 0.6);
     color: #ffffff;
 }
-.navbar
+.navbar, .offcanvas-body
 {
     background-color: #0088fb;
 }
-.navbar-collapse a, .navbar .navbar-toggler
+.offcanvas-body .navbar-nav .dropdown-menu li a
 {
-    color: #ffffff;
+    color: #0088fb !important;
 }
-.navbar-collapse a:hover, .navbar-collapse a:active, .navbar-collapse a:focus
+.offcanvas-body a, .navbar-brand, .offcanvas-body a, .offcanvas-body a.active, .navbar-toggler
 {
-    color: #ffffff;
-    text-decoration: underline;
+    color: #ffffff !important;
+}
+.offcanvas-body a:hover, .offcanvas-body a:active, .offcanvas-body a:focus, .offcanvas-body a.active
+{
+    color: #0088fb !important;
+    background-color: #ffffff;
+    padding: 7px 7px;
+}
+.menu-account-area img
+{
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 footer
@@ -65,4 +73,9 @@ footer
 .login-cta
 {
     background-color:  #efefef;
+}
+#sendSecretMessageForms #btnSubmit
+{
+    color: #0088fb;
+    font-weight: bold;
 }
