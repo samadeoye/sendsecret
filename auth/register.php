@@ -31,12 +31,12 @@ require_once DEF_DOC_ROOT.'includes/header.php';
                     <input type="password" class="form-control" id="password" name="password">
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label"> Password </label>
+                    <label for="passwordConfirm" class="form-label"> Confirm Password </label>
                     <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm">
                 </div>
-                <button type="submit" class="btn btn-light" id="btnSubmit">REGISTER</button>
+                <button type="submit" class="btn btn-dark" id="btnSubmit">REGISTER</button>
             </form>
-            <a href="auth/login" class="text-white text-decoration-none">Already have an account? <span class="btn btn-sm btn-light">Sign in</span></a>
+            <span class="text-white text-decoration-none">Already have an account? <a href="auth/login" class="btn btn-sm btn-light">Sign in</a></span>
         </div>
     </div>
 </div>
@@ -97,7 +97,7 @@ $arAdditionalJsOnLoad[] = <<<EOQ
                         throwSuccess('Registration successful. Logging you in...');
                         form[0].reset();
                         //redirect to dashboard
-                        window.location.href = "/app/";
+                        window.location.href = "app/";
                     }
                     else
                     {

@@ -47,3 +47,16 @@ function enableDisableBtn(id, status)
     $('.spinner-border').remove();
   }
 }
+
+function throwAlert(msg, wrapperId, alertClass)
+{
+  if (alertClass == undefined || alertClass == '')
+  {
+    alertClass = 'danger';
+  }
+  $('#'+wrapperId).html('<div class="alert alert-'+alertClass+' alert-dismissible" role="alert">'+msg+'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+}
+function clearAlert(wrapperId)
+{
+  $('#'+wrapperId).html('');
+}

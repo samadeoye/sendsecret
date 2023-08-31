@@ -9,12 +9,25 @@
                             <li class="list-inline-item">
                                 <a href="<?=DEF_FULL_BASE_PATH_URL;?>" class="text-white text-decoration-none">Home</a> | 
                             </li>
-                            <li class="list-inline-item">
-                                <a href="auth/login" class="text-white text-decoration-none">Login</a> | 
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="auth/register" class="text-white text-decoration-none">Register</a> | 
-                            </li>
+                            <?php
+                            if (isset($_SESSION['user']))
+                            { ?>
+                                <li class="list-inline-item">
+                                    <a href="app/" class="text-white text-decoration-none">Dashboard</a>
+                                </li>
+                            <?php
+                            }
+                            else
+                            { ?>
+                                <li class="list-inline-item">
+                                    <a href="auth/login" class="text-white text-decoration-none">Login</a> | 
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="auth/register" class="text-white text-decoration-none">Register</a> | 
+                                </li>
+                            <?php
+                            }
+                            ?>
                         </ul>
                     </div>
                 </div>

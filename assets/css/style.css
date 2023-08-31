@@ -50,12 +50,19 @@ footer
     margin-top: 50px;
     background-color: #0088fb;
 }
-.send-secret-form
+.send-secret-form, .send-secret-table
 {
     background-color: #0088fb;
     padding: 2rem 2rem 2rem 2rem;
     border: 1px solid rgb(18, 11, 76);
     color: #ffffff;
+}
+.send-secret-form-light, .send-secret-table-light
+{
+    background-color: #efefef;
+    padding: 2rem 2rem 2rem 2rem;
+    border: 1px solid rgb(18, 11, 76);
+    color: #000000;
 }
 #encodeDecodeForm .nav-link
 {

@@ -21,9 +21,10 @@ require_once DEF_DOC_ROOT.'includes/header.php';
                     <label for="password" class="form-label"> Password </label>
                     <input type="password" class="form-control" id="password" name="password">
                 </div>
-                <button type="submit" class="btn btn-light" id="btnSubmit">LOGIN</button>
+                <button type="submit" class="btn btn-dark" id="btnSubmit">LOGIN</button>
             </form>
-            <a href="auth/register" class="text-white text-decoration-none">Don't have an account? <span class="btn btn-sm btn-light">Sign up</span></a>
+            <div><a href="auth/forgotpassword" class="text-white">Forgot password</a></div>
+            <span class="text-white text-decoration-none">Don't have an account? <a href="auth/register" class="btn btn-sm btn-light">Sign up</a></span>
         </div>
     </div>
 </div>
@@ -35,9 +36,50 @@ require_once DEF_DOC_ROOT.'includes/header.php';
 <!-- Additional JavaScript -->
 <?php
 $arAdditionalJsOnLoad[] = <<<EOQ
-    $('loginForm #btnSubmit').click(function(){
-        alert('working');
-    });
+$('#loginForm #btnSubmit').click(function(){
+    var formId = '#loginForm';
+    var email = $(formId+' #email').val();
+    var password = $(formId+' #password').val();
+
+    if (email.length < 13 || email.length > 100)
+    {
+        throwError('Please enter a valid email');
+    }
+    else if (password.length < 6)
+    {
+        throwError('Password must contain at least six characters');
+    }
+    else
+    {
+        var form = $('#loginForm');
+        $.ajax({
+            url: 'includes/actions',
+            type: 'POST',
+            dataType: 'json',
+            data: form.serialize(),
+            beforeSend: function() {
+                enableDisableBtn(formId+' #btnSubmit', 0);
+            },
+            complete: function() {
+                enableDisableBtn(formId+' #btnSubmit', 1);
+            },
+            success: function(data)
+            {
+                if(data.status)
+                {
+                    throwSuccess('Logging you in...');
+                    form[0].reset();
+                    //redirect to dashboard
+                    window.location.href = "app/";
+                }
+                else
+                {
+                    throwError(data.msg);
+                }
+            }
+        });
+    }
+});
 EOQ;
 ?>
 <!-- Additional JavaScript -->

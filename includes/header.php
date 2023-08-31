@@ -15,25 +15,36 @@
                         <li class="nav-item">
                             <a class="nav-link <?=markAsActivePage('index.php');?>" aria-current="page" href="<?=DEF_FULL_BASE_PATH_URL;?>">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?=markAsActivePage('login.php');?>" href="auth/login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?=markAsActivePage('register.php');?>" href="auth/register">Register</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle <?=markAsActivePage('account');?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Account
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="messages">Messages</a></li>
-                                <li><a class="dropdown-item" href="profile">Profile</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item cursor-pointer" onclick="doOpenLogoutModal()">Logout</a></li>
-                            </ul>
-                        </li>
+                        <?php
+                        if (!isset($_SESSION['user']))
+                        { ?>
+                            <li class="nav-item">
+                                <a class="nav-link <?=markAsActivePage('login.php');?>" href="auth/login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <?=markAsActivePage('register.php');?>" href="auth/register">Register</a>
+                            </li>
+                        <?php
+                        }
+                        else
+                        { ?>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle <?=markAsActivePage('account');?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Account
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="app/">Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="app/profile">Profile</a></li>
+                                    <li><a class="dropdown-item" href="app/changepassword">Change Password</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item cursor-pointer" onclick="doOpenLogoutModal()">Logout</a></li>
+                                </ul>
+                            </li>
+                        <?php
+                        }
+                        ?>
                     </ul>
                 </div>
             </div>

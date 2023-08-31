@@ -1,9 +1,9 @@
 <?php
-namespace Lamba\Auth;
+namespace SendSecret\Auth;
 
 use Exception;
-use Lamba\Crud\Crud;
-use Lamba\User\User;
+use SendSecret\Crud\Crud;
+use SendSecret\User\User;
 
 class Login
 {
@@ -14,30 +14,30 @@ class Login
         $password = trim($_REQUEST['password']);
 
         //check if a user exists with the email
-        $rs = Crud::select(
+        $row = Crud::select(
             self::$table,
             [
-                'columns' => getUserSessionFields(),
+                'columns' => 'id, first_name, last_name, email, password, status',
                 'where' => [
                     'email' => $email,
                     'deleted' => 0
                 ]
             ]
         );
-        if ($rs)
+        if ($row)
         {
-            if ($rs['status'] != 1)
+            if ($row['status'] != 1)
             {
                 throw new Exception('Your account is disabled. Please contact the admin.');
             }
-            elseif (md5($password) != $rs['password'])
+            elseif (md5($password) != $row['password'])
             {
                 throw new Exception('Email or Password is incorrect');
             }
             else
             {
                 //login
-                $_SESSION['user'] = $rs;
+                $_SESSION['user'] = $row;
             }
         }
         else

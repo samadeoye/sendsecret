@@ -17,12 +17,18 @@ $(document).ready(function()
 
 <script>
 <?php
-if (count($arAdditionalJs) > 0)
+if (count($arAdditionalJsFunctions) > 0)
 {
-  echo implode(PHP_EOL, $arAdditionalJs);
+  echo implode(PHP_EOL, $arAdditionalJsFunctions);
 }
 ?>
 </script>
+<?php
+if (count($arAdditionalJsScript) > 0)
+{
+  echo implode(PHP_EOL, $arAdditionalJsScript);
+}
+?>
 
 </body>
 </html>

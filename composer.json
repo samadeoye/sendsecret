@@ -3,5 +3,8 @@
     "psr-4": {
       "SendSecret\\": "src"
     }
+  },
+  "require": {
+    "phpmailer/phpmailer": "^6.8"
   }
 }

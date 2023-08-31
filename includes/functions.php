@@ -9,7 +9,7 @@ function markAsActivePage($page)
         $activeClass = 'active';
     }
     //the account will be marked as active for pages: messages & profile
-    if ($page == 'account' && in_array($currentPage, ['message.php', 'profile.php']))
+    if ($page == 'account' && in_array($currentPage, ['message.php', 'profile.php', 'changepassword.php', 'forgotpassword.php']))
     {
         $activeClass = 'active';
     }
@@ -33,29 +33,28 @@ function getJsonList($row)
 }
 
 
-function doValidateApiParams($data)
+function doValidateRequestParams($data)
 {
-    if(count($data) > 0)
+    if (count($data) > 0)
     {
         foreach($data as $key => $val)
         {
-        $validate = doCheckParamIssetEmpty($key, $val);
-        if(!$validate['status'])
-        {
-            getJsonRow(false, $validate['msg']);
-        }
+            $validate = doCheckParamIsValid($key, $val);
+            if (!$validate['status'])
+            {
+                getJsonRow(false, $validate['msg']);
+            }
         }
     }
 }
 
-function doCheckParamIssetEmpty($param, $data)
+function doCheckParamIsValid($param, $data)
 {
     $datax = [
         'status' => true,
         'msg' => ''
     ];
   
-    $param = strtolower($param);
     $method = $data['method'];
     $label = $data['label'];
     $length = isset($data['length']) ? $data['length'] : [0,0];
@@ -63,16 +62,16 @@ function doCheckParamIssetEmpty($param, $data)
     $type = isset($data['type']) ? $data['type'] : "";
     $isEmail = isset($data['is_email']) ? $data['is_email'] : false;
 
-    if(empty($label))
+    if (empty($label))
     {
         $label = $param;
     }
-    if(strtolower($method) == 'post')
+    if (strtolower($method) == 'post')
     {
         $isset = isset($_POST[$param]);
         $value = isset($_POST[$param]) ? $_POST[$param] : "";
     }
-    elseif(strtolower($method) == 'get')
+    elseif (strtolower($method) == 'get')
     {
         $isset = isset($_GET[$param]);
         $value = $isset ? $_GET[$param] : "";
@@ -83,17 +82,17 @@ function doCheckParamIssetEmpty($param, $data)
         $value = $isset ? $_REQUEST[$param] : "";
     }
     
-    if($required)
+    if ($required)
     {
         $isset = $isset && !empty($value);
-        if(!$isset)
+        if (!$isset)
         {
-        $datax['status'] = false;
-        $datax['msg'] = $label . ' is required.';
-        return $datax;
+            $datax['status'] = false;
+            $datax['msg'] = $label . ' is required.';
+            return $datax;
         }
     }
-    if(!empty($type) && !empty($value))
+    if (!empty($type) && !empty($value))
     {
         if($type == 'string')
         {
@@ -104,17 +103,17 @@ function doCheckParamIssetEmpty($param, $data)
             return $datax;
         }
         }
-        elseif($type == 'number')
+        elseif ($type == 'number')
         {
-        if(!is_numeric($value))
-        {
-            $datax['status'] = false;
-            $datax['msg'] = $label . ' must contain only digits.';
-            return $datax;
-        }
+            if (!is_numeric($value))
+            {
+                $datax['status'] = false;
+                $datax['msg'] = $label . ' must contain only digits.';
+                return $datax;
+            }
         }
     }
-    if((!empty($value) && $isEmail) || (!empty($value) && trim($param) == 'email'))
+    if ((!empty($value) && $isEmail) || (!empty($value) && trim($param) == 'email'))
     {
         if(!filter_var($value, FILTER_VALIDATE_EMAIL))
         {
@@ -123,7 +122,7 @@ function doCheckParamIssetEmpty($param, $data)
         return $datax;
         }
     }
-    if($length[0] > 0 && $length[1] > 0 && $length[0] == $length[1] && !empty($value))
+    if ($length[0] > 0 && $length[1] > 0 && $length[0] == $length[1] && !empty($value))
     {
         $isset = $isset && strlen($value) == $length[0];
         if(!$isset)
@@ -140,7 +139,7 @@ function doCheckParamIssetEmpty($param, $data)
         return $datax;
         }
     }
-    if($length[0] > 0 && !empty($value))
+    if ($length[0] > 0 && !empty($value))
     {
         $isset = $isset && strlen($value) >= $length[0];
         if(!$isset)
@@ -157,7 +156,7 @@ function doCheckParamIssetEmpty($param, $data)
             return $datax;
         }
     }
-    if($length[1] > 0 && !empty($value))
+    if ($length[1] > 0 && !empty($value))
     {
         $isset = $isset && strlen($value) <= $length[1];
         if(!$isset)

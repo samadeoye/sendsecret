@@ -11,12 +11,20 @@ class ComposerStaticInit6762178d877c08a60ff5f7b63984a21a
         array (
             'SendSecret\\' => 11,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'SendSecret\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
     );
 

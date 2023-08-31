@@ -19,13 +19,13 @@ define('DEF_IS_PRODUCTION', $isProductionServer);
 
 require_once DEF_DOC_ROOT.'vendor/autoload.php';
 require_once DEF_DOC_ROOT.'includes/functions.php';
-require_once DEF_DOC_ROOT.'/includes/connect.php';
+require_once DEF_DOC_ROOT.'includes/connect.php';
 
-if(isset($_SESSION['user']))
+if (isset($_SESSION['user']))
 {
     //get the logged-in user session
     $arUser = getUserSession();
     $userId = $arUser['id'];
 }
 
-$arAdditionalCSS = $arAdditionalJs = $arAdditionalJsOnLoad = [];
+$arAdditionalCSS = $arAdditionalJsFunctions = $arAdditionalJsScript = $arAdditionalJsOnLoad = [];

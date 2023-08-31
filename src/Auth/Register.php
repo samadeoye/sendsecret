@@ -4,6 +4,7 @@ namespace SendSecret\Auth;
 use Exception;
 use SendSecret\Crud\Crud;
 use SendSecret\User\User;
+use SendSecret\Duplicate\Duplicate;
 
 class Register
 {
@@ -22,15 +23,15 @@ class Register
         }
 
         //check if a user exists with the same email
-        if (User::checkIfUserExists('email', $email))
+        if (Duplicate::checkIfDuplicateExists(DEF_TBL_USERS, 'email', $email))
         {
             throw new Exception('A user already exists with this email');
         }
 
         //proceed to register
         $data = [
-            'fname' => $fname,
-            'lname' => $lname,
+            'first_name' => $fname,
+            'last_name' => $lname,
             'email' => $email,
             'password' => md5($password),
             'cdate' => time()
@@ -41,17 +42,17 @@ class Register
             
             //get last inserted id
             $id = $db->lastInsertId();
-            $rs = Crud::select(
-                self::$table,
-                [
-                    'columns' => 'fname, lname, email, password',
-                    'where' => [
-                        'id' => $id
-                    ]
-                ]
-            );
-            //set a new user session
-            $_SESSION['user'] = $rs;
+            $arFields = ['id', 'first_name', 'last_name', 'email', 'password'];
+            $row = User::getUser($id, $arFields);
+            if ($row)
+            {
+                //set a new user session
+                $_SESSION['user'] = $row;
+            }
+            else
+            {
+                throw new Exception('An error occured while logging you in. Please proceed to login.');
+            }
         }
         else
         {
