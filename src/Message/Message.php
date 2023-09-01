@@ -12,14 +12,15 @@ class Message
     public static function encodeMessage()
     {
         $senderName = stringToUpper(trim($_REQUEST['senderName']));
-        $plainMsg = stringToUpper(trim($_REQUEST['plainMsg']));
-        $userSecretKey = stringToUpper(trim($_REQUEST['secretKey']));
+        $plainMsg = trim($_REQUEST['plainMsg']);
+        $userSecretKey = trim($_REQUEST['secretKey']);
         $userId = 0;
         if (isset($_SESSION['user']))
         {
             $userId = intval($_SESSION['user']['id']);
         }
 
+        //get the saved message code generated upon encryption
         $messageCode = self::invokeMessageEncoding($plainMsg, $userSecretKey);
         
         if (!empty($messageCode))
@@ -48,8 +49,8 @@ class Message
     
     public static function decodeMessage()
     {
-        $messageRef = stringToUpper(trim($_REQUEST['messageRef']));
-        $userSecretKey = stringToUpper(trim($_REQUEST['secretKey']));
+        $messageRef = trim($_REQUEST['messageRef']);
+        $userSecretKey = trim($_REQUEST['secretKey']);
 
         //get message code
         $rs = Crud::select(
@@ -88,6 +89,7 @@ class Message
         $encryptionMethod = DEF_MESSAGE_ENCRYPTION_METHOD;
         $secretKey = hash('sha256', DEF_MESSAGE_SECRET_KEY);
         $userSecretKey = substr(hash('sha256', $userSecretKey), 0, 16);
+        $secretKey .= $userSecretKey;
         
         $output = openssl_encrypt($message, $encryptionMethod, $secretKey, 0, $userSecretKey);
         $messageCode = base64_encode($output);
@@ -100,10 +102,10 @@ class Message
         $encryptionMethod = DEF_MESSAGE_ENCRYPTION_METHOD;
         $secretKey = hash('sha256', DEF_MESSAGE_SECRET_KEY);
         $userSecretKey = substr(hash('sha256', $userSecretKey), 0, 16);
+        $secretKey .= $userSecretKey;
         
-        $output = openssl_decrypt(base64_decode($messageCode), $encryptionMethod, $secretKey, 0, $userSecretKey);
-        $messageCode = base64_encode($output);
+        $message = openssl_decrypt(base64_decode($messageCode), $encryptionMethod, $secretKey, 0, $userSecretKey);
         
-        return $messageCode;
+        return $message;
     }
 }
