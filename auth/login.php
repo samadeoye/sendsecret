@@ -1,5 +1,12 @@
 <?php
 require_once '../includes/utils.php';
+
+//redirect user to the dashboard if already logged in
+if (isset($_SESSION['user']))
+{
+    header('location: '.DEF_FULL_BASE_PATH_URL.'/app');
+}
+
 require_once DEF_DOC_ROOT.'includes/head.php';
 require_once DEF_DOC_ROOT.'includes/header.php';
 ?>

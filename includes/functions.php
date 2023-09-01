@@ -32,7 +32,6 @@ function getJsonList($row)
     exit;
 }
 
-
 function doValidateRequestParams($data)
 {
     if (count($data) > 0)

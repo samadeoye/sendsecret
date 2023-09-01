@@ -42,13 +42,13 @@ require_once 'includes/header.php';
                     <form id="encodeForm" onsubmit="return false;">
                         <input type="hidden" id="action" name="action" value="encodeMessage">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Your Name</label>
+                            <label for="senderName" class="form-label">Your Name</label>
                             <p><small>This will be shown to the receiver</small></p>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <input type="text" class="form-control" id="senderName" name="senderName">
                         </div>
                         <div class="mb-3">
-                            <label for="encodeMsg" class="form-label">Your Message</label>
-                            <textarea class="form-control" id="encodeMsg" name="encodeMsg" cols="30" rows="10"></textarea>
+                            <label for="plainMsg" class="form-label">Your Message</label>
+                            <textarea class="form-control" id="plainMsg" name="plainMsg" cols="30" rows="10"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="secretKey" class="form-label">Secret Key</label>
@@ -56,6 +56,7 @@ require_once 'includes/header.php';
                             <input type="text" class="form-control" id="secretKey" name="secretKey">
                         </div>
                         <button type="submit" class="btn btn-light" id="btnSubmit">ENCODE</button>
+                        <div id="messageRef" class="mt-3"></div>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="decode-tab-pane" role="tabpanel" aria-labelledby="decode-tab" tabindex="0">
@@ -63,14 +64,15 @@ require_once 'includes/header.php';
                     <form id="decodeForm" onsubmit="return false;">
                         <input type="hidden" id="action" name="action" value="decodeMessage">
                         <div class="mb-3">
-                            <label for="msgReference" class="form-label">Message Reference</label>
-                            <input type="text" class="form-control" id="msgReference" name="msgReference">
+                            <label for="messageRef" class="form-label">Message Reference</label>
+                            <input type="text" class="form-control" id="messageRef" name="messageRef">
                         </div>
                         <div class="mb-3">
                             <label for="secretKey" class="form-label">Secret Key</label>
                             <input type="text" class="form-control" id="secretKey" name="secretKey">
                         </div>
                         <button type="submit" class="btn btn-light" id="btnSubmit">DECODE</button>
+                        <div id="message" class="mt-3"></div>
                     </form>
                 </div>
             </div>
@@ -81,5 +83,107 @@ require_once 'includes/header.php';
 <!-- Footer -->
 <?php require_once 'includes/footer.php'; ?>
 <!-- Footer -->
+
+<!-- Additional JavaScript -->
+<?php
+$arAdditionalJsOnLoad[] = <<<EOQ
+$('#encodeForm #btnSubmit').click(function(){
+    var formId = '#encodeForm';
+    var senderName = $(formId+' #senderName').val();
+    var plainMsg = $(formId+' #plainMsg').val();
+    var secretKey = $(formId+' #secretKey').val();
+
+    if (senderName.length < 3 || senderName.length > 150)
+    {
+        throwError('Please enter a valid name');
+    }
+    else if (plainMsg.length < 5)
+    {
+        throwError('Please enter a valid message');
+    }
+    else if (plainMsg.length > 500)
+    {
+        throwError('Your message cannot comtain more than 500 characters.');
+    }
+    else if (secretKey.length < 4 || secretKey.length > 4)
+    {
+        throwError('Secret key must contain exactly four characters.');
+    }
+    else
+    {
+        var form = $('#encodeForm');
+        $.ajax({
+            url: 'includes/actions',
+            type: 'POST',
+            dataType: 'json',
+            data: form.serialize(),
+            beforeSend: function() {
+                enableDisableBtn(formId+' #btnSubmit', 0);
+            },
+            complete: function() {
+                enableDisableBtn(formId+' #btnSubmit', 1);
+            },
+            success: function(data)
+            {
+                if(data.status)
+                {
+                    throwSuccess('Message successfully encoded. Please copy your reference and keep it safe.');
+                    form[0].reset();
+                    throwAlert('Message Reference: <b>'+data.data.reference+'</b>', 'messageRef', 'warning');
+                }
+                else
+                {
+                    throwError(data.msg);
+                }
+            }
+        });
+    }
+});
+
+$('#decodeForm #btnSubmit').click(function(){
+    var formId = '#decodeForm';
+    var messageRef = $(formId+' #messageRef').val();
+    var secretKey = $(formId+' #secretKey').val();
+
+    if (messageRef.length < 13 || messageRef.length > 13)
+    {
+        throwError('Please enter a valid reference');
+    }
+    else if (secretKey.length < 4 || secretKey.length > 4)
+    {
+        throwError('Please enter a valid secret key');
+    }
+    else
+    {
+        var form = $('#decodeForm');
+        $.ajax({
+            url: 'includes/actions',
+            type: 'POST',
+            dataType: 'json',
+            data: form.serialize(),
+            beforeSend: function() {
+                enableDisableBtn(formId+' #btnSubmit', 0);
+            },
+            complete: function() {
+                enableDisableBtn(formId+' #btnSubmit', 1);
+            },
+            success: function(data)
+            {
+                if(data.status)
+                {
+                    throwSuccess('Message successfully decoded. See your message below.');
+                    form[0].reset();
+                    throwAlert('Plain Message:<br>'+data.data.message, 'message', 'success');
+                }
+                else
+                {
+                    throwError(data.msg);
+                }
+            }
+        });
+    }
+});
+EOQ;
+?>
 
 <?php require_once 'includes/foot.php'; ?>

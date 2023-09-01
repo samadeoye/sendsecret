@@ -141,6 +141,46 @@ class Param
                     ]
                 ];
             break;
+
+            case 'encodeMessage':
+                $data = [
+                    'senderName' => [
+                        'method' => 'post',
+                        'length' => [3,100],
+                        'label' => 'Sender\'s Name',
+                        'required' => true
+                    ],
+                    'plainMsg' => [
+                        'method' => 'post',
+                        'length' => [5,500],
+                        'label' => 'Message',
+                        'required' => true
+                    ],
+                    'secretKey' => [
+                        'method' => 'post',
+                        'length' => [4,4],
+                        'label' => 'Secret Key',
+                        'required' => true
+                    ]
+                ];
+            break;
+
+            case 'decodeMessage':
+                $data = [
+                    'messageRef' => [
+                        'method' => 'post',
+                        'length' => [13,13],
+                        'label' => 'Message Reference',
+                        'required' => true
+                    ],
+                    'secretKey' => [
+                        'method' => 'post',
+                        'length' => [4,4],
+                        'label' => 'Secret Key',
+                        'required' => true
+                    ]
+                ];
+            break;
         }
 
         return $data;

@@ -3,6 +3,7 @@ require_once 'utils.php';
 
 use SendSecret\Param\Param;
 use SendSecret\User\User;
+use SendSecret\Message\Message;
 
 $action = isset($_REQUEST['action']) ? trim($_REQUEST['action']) : '';
 if ($action == '')
@@ -28,11 +29,7 @@ try
         break;
         case 'updateProfile':
             User::updateUser();
-            $row = User::$data;
-            if (count($row) > 0)
-            {
-                $data = $row;
-            }
+            $data = User::$data;
         break;
         case 'changePassword':
             User::changePassword();
@@ -42,6 +39,14 @@ try
         break;
         case 'resetPassword':
             User::resetPassword();
+        break;
+        case 'encodeMessage':
+            Message::encodeMessage();
+            $data = Message::$data;
+        break;
+        case 'decodeMessage':
+            Message::decodeMessage();
+            $data = Message::$data;
         break;
     }
 
