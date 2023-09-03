@@ -10,7 +10,7 @@
                                 <a href="<?=DEF_FULL_BASE_PATH_URL;?>" class="text-white text-decoration-none">Home</a> | 
                             </li>
                             <?php
-                            if (isset($_SESSION['user']))
+                            if (isset($_SESSION['sendSecretUser']))
                             { ?>
                                 <li class="list-inline-item">
                                     <a href="app/" class="text-white text-decoration-none">Dashboard</a>

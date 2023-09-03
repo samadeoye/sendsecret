@@ -21,7 +21,7 @@ require_once DEF_DOC_ROOT.'vendor/autoload.php';
 require_once DEF_DOC_ROOT.'includes/functions.php';
 require_once DEF_DOC_ROOT.'includes/connect.php';
 
-if (isset($_SESSION['user']))
+if (isset($_SESSION['sendSecretUser']))
 {
     //get the logged-in user session
     $arUser = getUserSession();

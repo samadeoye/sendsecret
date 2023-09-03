@@ -47,7 +47,7 @@ class Register
             if ($row)
             {
                 //set a new user session
-                $_SESSION['user'] = $row;
+                $_SESSION['sendSecretUser'] = $row;
             }
             else
             {

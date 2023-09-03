@@ -182,5 +182,27 @@ function stringToUpper($text)
 
 function getUserSession()
 {
-    return $_SESSION['user'];
+    return $_SESSION['sendSecretUser'];
+}
+
+function getFormattedDate($date, $format='')
+{
+    if ($date != '')
+    {
+        if(strlen($date) == 10)
+        {
+            $format = !empty($format) ? $format : 'Y-m-d H:i';
+            return date($format, $date);
+        }
+    }
+    else
+    {
+        return '';
+    }
+}
+
+//will return a 24-character value
+function getAppReference()
+{
+    return SITE_ABR.'-REF-'.strtoupper(uniqid());
 }

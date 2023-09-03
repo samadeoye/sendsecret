@@ -11,14 +11,28 @@ class Message
     static $data = [];
     public static function encodeMessage()
     {
-        $senderName = stringToUpper(trim($_REQUEST['senderName']));
+        //sender's name will only be required for users who are not logged-in
+        $userId = 0;
+        if (isset($_SESSION['sendSecretUser']))
+        {
+            $row = $_SESSION['sendSecretUser'];
+            $userId = intval($row['id']);
+            $senderName = $row['first_name'] . ' ' . $row['last_name'];
+        }
+        else
+        {
+            $senderName = '';
+            if (isset($_REQUEST['senderName']) && !empty($_REQUEST['senderName']))
+            {
+                $senderName = stringToUpper(trim($_REQUEST['senderName']));
+            }
+            if (empty($senderName))
+            {
+                throw new Exception("Sender's name is required.");
+            }
+        }
         $plainMsg = trim($_REQUEST['plainMsg']);
         $userSecretKey = trim($_REQUEST['secretKey']);
-        $userId = 0;
-        if (isset($_SESSION['user']))
-        {
-            $userId = intval($_SESSION['user']['id']);
-        }
 
         //get the saved message code generated upon encryption
         $messageCode = self::invokeMessageEncoding($plainMsg, $userSecretKey);
@@ -29,14 +43,18 @@ class Message
                 We won't store the user's secret key,
                 hence, the decryption cannot be completed with only the available data on the system
             */
-            $reference = uniqid();
+            $reference = getAppReference();
             $data = [
                 'reference' => $reference,
                 'sender_name' => $senderName,
-                'user_id' => $userId,
                 'message_code' => $messageCode,
                 'cdate' => time()
             ];
+            if ($userId > 0)
+            {
+                $data['user_id'] = $userId;
+            }
+
             $insert = Crud::insert(self::$table, $data);
             if ($insert)
             {
@@ -53,7 +71,7 @@ class Message
     
     public static function decodeMessage()
     {
-        $messageRef = trim($_REQUEST['messageRef']);
+        $messageRef = stringToUpper(trim($_REQUEST['messageRef']));
         $userSecretKey = trim($_REQUEST['secretKey']);
 
         //get message code
@@ -88,6 +106,9 @@ class Message
         }
     }
 
+    /*
+        ** initiates the encryption action
+    */
     protected static function invokeMessageEncoding($message, $userSecretKey)
     {
         $encryptionMethod = DEF_MESSAGE_ENCRYPTION_METHOD;
@@ -103,6 +124,9 @@ class Message
         return $messageCode;
     }
 
+    /*
+        ** initiates the decryption action
+    */
     protected static function invokeMessageDecoding($messageCode, $userSecretKey)
     {
         $encryptionMethod = DEF_MESSAGE_ENCRYPTION_METHOD;
@@ -115,5 +139,25 @@ class Message
         $message = openssl_decrypt(base64_decode($messageCode), $encryptionMethod, $secretKey, 0, $userSecretKey);
         
         return $message;
+    }
+
+    /*
+        ** fetches all messages sent by the logged-in user
+    */
+    public static function getSentMessages()
+    {
+        global $userId;
+
+        return Crud::select(
+            self::$table,
+            [
+                'columns' => 'id, reference, cdate',
+                'where' => [
+                    'user_id' => $userId
+                ],
+                'return_type' => 'all',
+                'order' => 'cdate DESC'
+            ]
+        );
     }
 }

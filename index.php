@@ -2,6 +2,7 @@
 require_once 'includes/utils.php';
 require_once 'includes/head.php';
 require_once 'includes/header.php';
+$acceptSenderName = false;
 ?>
 
 <div class="text-center header-bg-image">
@@ -41,11 +42,18 @@ require_once 'includes/header.php';
                     <h3>Encode Message</h3>
                     <form id="encodeForm" onsubmit="return false;">
                         <input type="hidden" id="action" name="action" value="encodeMessage">
-                        <div class="mb-3">
-                            <label for="senderName" class="form-label">Your Name</label>
-                            <p><small>This will be shown to the receiver</small></p>
-                            <input type="text" class="form-control" id="senderName" name="senderName">
-                        </div>
+                        <?php
+                            if (!isset($_SESSION['sendSecretUser']))
+                            {
+                                $acceptSenderName = true; ?>
+                                <div class="mb-3">
+                                    <label for="senderName" class="form-label">Your Name</label>
+                                    <p><small>This will be shown to the receiver</small></p>
+                                    <input type="text" class="form-control" id="senderName" name="senderName">
+                                </div>
+                            <?php
+                            }
+                        ?>
                         <div class="mb-3">
                             <label for="plainMsg" class="form-label">Your Message</label>
                             <textarea class="form-control" id="plainMsg" name="plainMsg" cols="30" rows="10"></textarea>
@@ -86,16 +94,55 @@ require_once 'includes/header.php';
 
 <!-- Additional JavaScript -->
 <?php
+$arAdditionalJsFunctions[] = <<<EOQ
+    function invokeMessageEncoding(formId)
+    {
+        var form = $('#encodeForm');
+        $.ajax({
+            url: 'includes/actions',
+            type: 'POST',
+            dataType: 'json',
+            data: form.serialize(),
+            beforeSend: function() {
+                enableDisableBtn(formId+' #btnSubmit', 0);
+            },
+            complete: function() {
+                enableDisableBtn(formId+' #btnSubmit', 1);
+            },
+            success: function(data)
+            {
+                if(data.status)
+                {
+                    throwSuccess('Message successfully encoded. Please copy your reference and keep it safe.');
+                    form[0].reset();
+                    throwAlert('Message Reference:<br><b>'+data.data.reference+'</b>', 'messageRef', 'warning');
+                }
+                else
+                {
+                    throwError(data.msg);
+                }
+            }
+        });
+    }
+EOQ;
+
 $arAdditionalJsOnLoad[] = <<<EOQ
     $('#encodeForm #btnSubmit').click(function(){
         var formId = '#encodeForm';
-        var senderName = $(formId+' #senderName').val();
         var plainMsg = $(formId+' #plainMsg').val();
         var secretKey = $(formId+' #secretKey').val();
 
-        if (senderName.length < 3 || senderName.length > 150)
+        if ('{$acceptSenderName}' == true)
         {
-            throwError('Please enter a valid name');
+            var senderName = $(formId+' #senderName').val();
+            if (senderName.length < 3 || senderName.length > 150)
+            {
+                throwError('Please enter a valid sender\'s name');
+            }
+            else
+            {
+                invokeMessageEncoding(formId);
+            }
         }
         else if (plainMsg.length < 5)
         {
@@ -111,32 +158,7 @@ $arAdditionalJsOnLoad[] = <<<EOQ
         }
         else
         {
-            var form = $('#encodeForm');
-            $.ajax({
-                url: 'includes/actions',
-                type: 'POST',
-                dataType: 'json',
-                data: form.serialize(),
-                beforeSend: function() {
-                    enableDisableBtn(formId+' #btnSubmit', 0);
-                },
-                complete: function() {
-                    enableDisableBtn(formId+' #btnSubmit', 1);
-                },
-                success: function(data)
-                {
-                    if(data.status)
-                    {
-                        throwSuccess('Message successfully encoded. Please copy your reference and keep it safe.');
-                        form[0].reset();
-                        throwAlert('Message Reference:<br><b>'+data.data.reference+'</b>', 'messageRef', 'warning');
-                    }
-                    else
-                    {
-                        throwError(data.msg);
-                    }
-                }
-            });
+            invokeMessageEncoding(formId);
         }
     });
 
@@ -145,7 +167,7 @@ $arAdditionalJsOnLoad[] = <<<EOQ
         var messageRef = $(formId+' #messageRef').val();
         var secretKey = $(formId+' #secretKey').val();
 
-        if (messageRef.length < 13 || messageRef.length > 13)
+        if (messageRef.length < 24 || messageRef.length > 24)
         {
             throwError('Please enter a valid reference');
         }

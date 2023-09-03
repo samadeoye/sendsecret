@@ -42,8 +42,8 @@ class User
         );
         if ($update)
         {
-            $row = array_merge($_SESSION['user'], $data);
-            $_SESSION['user'] = $row;
+            $row = array_merge($_SESSION['sendSecretUser'], $data);
+            $_SESSION['sendSecretUser'] = $row;
             self::$data = $data;
         }
         else
@@ -77,7 +77,7 @@ class User
         );
         if ($update)
         {
-            $_SESSION['user']['password'] = $newPassword;
+            $_SESSION['sendSecretUser']['password'] = $newPassword;
         }
         else
         {

@@ -37,7 +37,7 @@ class Login
             else
             {
                 //login
-                $_SESSION['user'] = $row;
+                $_SESSION['sendSecretUser'] = $row;
             }
         }
         else

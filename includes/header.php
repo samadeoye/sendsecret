@@ -16,7 +16,7 @@
                             <a class="nav-link <?=markAsActivePage('index.php');?>" aria-current="page" href="<?=DEF_FULL_BASE_PATH_URL;?>">Home</a>
                         </li>
                         <?php
-                        if (!isset($_SESSION['user']))
+                        if (!isset($_SESSION['sendSecretUser']))
                         { ?>
                             <li class="nav-item">
                                 <a class="nav-link <?=markAsActivePage('login.php');?>" href="auth/login">Login</a>

@@ -5,13 +5,14 @@ $arAdditionalCSS[] = <<<EOQ
 EOQ;
 require_once DEF_DOC_ROOT.'includes/head.php';
 require_once DEF_DOC_ROOT.'includes/header.php';
+$acceptSenderName = false;
 ?>
 
 <div class="container-fluid login-cta">
     <div class="row">
         <div class="col-md-12 pt-5 pb-4 text-center">
             <h4>Dashboard</h4>
-            <span><a href="" class="text-dark">Home</a> - Dashboard</span>
+            <span><a href="" class="text-dark">Home</a> - Dashboard </span>
         </div>
     </div>
 </div>
@@ -32,11 +33,18 @@ require_once DEF_DOC_ROOT.'includes/header.php';
                     <h3>Encode Message</h3>
                     <form id="encodeForm" onsubmit="return false;">
                         <input type="hidden" id="action" name="action" value="encodeMessage">
-                        <div class="mb-3">
-                            <label for="senderName" class="form-label">Your Name</label>
-                            <p><small>This will be shown to the receiver</small></p>
-                            <input type="text" class="form-control" id="senderName" name="senderName">
-                        </div>
+                        <?php
+                            if (!isset($_SESSION['sendSecretUser']))
+                            {
+                                $acceptSenderName = true; ?>
+                                <div class="mb-3">
+                                    <label for="senderName" class="form-label">Your Name</label>
+                                    <p><small>This will be shown to the receiver</small></p>
+                                    <input type="text" class="form-control" id="senderName" name="senderName">
+                                </div>
+                            <?php
+                            }
+                        ?>
                         <div class="mb-3">
                             <label for="plainMsg" class="form-label">Your Message</label>
                             <textarea class="form-control" id="plainMsg" name="plainMsg" cols="30" rows="10"></textarea>
@@ -82,11 +90,28 @@ require_once DEF_DOC_ROOT.'includes/header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                    </tr>
+                    <?php
+                        $arSentMessages = SendSecret\Message\Message::getSentMessages();
+                        $count = 1;
+                        foreach($arSentMessages as $r)
+                        {
+                            $messageRefWrapperId = 'messageRef'.$r['id'];
+                            $reference = $r['reference']; ?>
+                            <tr>
+                                <td><?=$count;?></td>
+                                <td>
+                                    <?=$reference;?>
+                                    <div class="sendSecretTooltip" onclick="copyMessageRef('<?=$messageRefWrapperId;?>')">
+                                        <i class="fas fa-copy text-primary cursor-pointer"></i>
+                                        <span class="tooltiptext">Copy Reference</span>
+                                    </div>
+                                    <input type="hidden" id="<?=$messageRefWrapperId;?>" value="<?=$reference;?>">
+                                </td>
+                                <td><?=getFormattedDate($r['cdate']);?></td>
+                            </tr>
+                            <?php $count++;
+                        }
+                    ?>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -111,18 +136,68 @@ $arAdditionalJsScript[] = <<<EOQ
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 EOQ;
+
+$arAdditionalJsFunctions[] = <<<EOQ
+    function invokeMessageEncoding(formId)
+    {
+        var form = $('#encodeForm');
+        $.ajax({
+            url: 'includes/actions',
+            type: 'POST',
+            dataType: 'json',
+            data: form.serialize(),
+            beforeSend: function() {
+                enableDisableBtn(formId+' #btnSubmit', 0);
+            },
+            complete: function() {
+                enableDisableBtn(formId+' #btnSubmit', 1);
+            },
+            success: function(data)
+            {
+                if(data.status)
+                {
+                    throwSuccess('Message successfully encoded. Please copy your reference and keep it safe.');
+                    form[0].reset();
+                    throwAlert('Message Reference:<br><b>'+data.data.reference+'</b>', 'messageRef', 'warning');
+                }
+                else
+                {
+                    throwError(data.msg);
+                }
+            }
+        });
+    }
+
+    function copyMessageRef(messageRefWrapperId)
+    {
+        var messageRefWrapper = $('#'+messageRefWrapperId);
+        messageRefWrapper.attr('type', 'text');
+        messageRefWrapper.select();
+        document.execCommand('copy');
+        throwSuccess('Copied to clipboard');
+        messageRefWrapper.attr('type', 'hidden');
+    }
+EOQ;
+
 $arAdditionalJsOnLoad[] = <<<EOQ
     new DataTable('#messagesTable');
 
     $('#encodeForm #btnSubmit').click(function(){
         var formId = '#encodeForm';
-        var senderName = $(formId+' #senderName').val();
         var plainMsg = $(formId+' #plainMsg').val();
         var secretKey = $(formId+' #secretKey').val();
 
-        if (senderName.length < 3 || senderName.length > 150)
+        if ('{$acceptSenderName}' == true)
         {
-            throwError('Please enter a valid name');
+            var senderName = $(formId+' #senderName').val();
+            if (senderName.length < 3 || senderName.length > 150)
+            {
+                throwError('Please enter a valid sender\'s name');
+            }
+            else
+            {
+                invokeMessageEncoding(formId);
+            }
         }
         else if (plainMsg.length < 5)
         {
@@ -138,32 +213,7 @@ $arAdditionalJsOnLoad[] = <<<EOQ
         }
         else
         {
-            var form = $('#encodeForm');
-            $.ajax({
-                url: 'includes/actions',
-                type: 'POST',
-                dataType: 'json',
-                data: form.serialize(),
-                beforeSend: function() {
-                    enableDisableBtn(formId+' #btnSubmit', 0);
-                },
-                complete: function() {
-                    enableDisableBtn(formId+' #btnSubmit', 1);
-                },
-                success: function(data)
-                {
-                    if(data.status)
-                    {
-                        throwSuccess('Message successfully encoded. Please copy your reference and keep it safe.');
-                        form[0].reset();
-                        throwAlert('Message Reference:<br><b>'+data.data.reference+'</b>', 'messageRef', 'warning');
-                    }
-                    else
-                    {
-                        throwError(data.msg);
-                    }
-                }
-            });
+            invokeMessageEncoding(formId);
         }
     });
 
@@ -172,7 +222,7 @@ $arAdditionalJsOnLoad[] = <<<EOQ
         var messageRef = $(formId+' #messageRef').val();
         var secretKey = $(formId+' #secretKey').val();
 
-        if (messageRef.length < 13 || messageRef.length > 13)
+        if (messageRef.length < 24 || messageRef.length > 24)
         {
             throwError('Please enter a valid reference');
         }

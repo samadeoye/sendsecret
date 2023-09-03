@@ -144,12 +144,6 @@ class Param
 
             case 'encodeMessage':
                 $data = [
-                    'senderName' => [
-                        'method' => 'post',
-                        'length' => [3,100],
-                        'label' => 'Sender\'s Name',
-                        'required' => true
-                    ],
                     'plainMsg' => [
                         'method' => 'post',
                         'length' => [5,500],
@@ -169,7 +163,7 @@ class Param
                 $data = [
                     'messageRef' => [
                         'method' => 'post',
-                        'length' => [13,13],
+                        'length' => [24,24],
                         'label' => 'Message Reference',
                         'required' => true
                     ],
