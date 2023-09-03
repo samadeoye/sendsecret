@@ -16,7 +16,7 @@ class Crud {
         $insert = "INSERT INTO ".$table." (".$cols.") VALUES(".$valString.")";
         $insert = $db->prepare($insert);
         $insert->execute($values);
-        if($insert)
+        if ($insert)
         {
             return true;
         }
@@ -33,11 +33,11 @@ class Crud {
         $values = [];
 
         $allowWhere = false;
-        if(array_key_exists('where', $data) && count($data['where']) > 0)
+        if (array_key_exists('where', $data) && count($data['where']) > 0)
         {
             $allowWhere = true;
         }
-        if($allowWhere)
+        if ($allowWhere)
         {
             $where = '';
             if(array_key_exists('where', $data) && count($data['where']) > 0)
@@ -62,17 +62,17 @@ class Crud {
             }
         }
         $allowOrWhere = false;
-        if(array_key_exists('orWhere', $data) && count($data['orWhere']) > 0)
+        if (array_key_exists('orWhere', $data) && count($data['orWhere']) > 0)
         {
             $allowOrWhere = true;
         }
-        if($allowWhere && $allowOrWhere)
+        if ($allowWhere && $allowOrWhere)
         {
             $i = 0; 
             foreach($data['orWhere'] as $key => $value)
             {
                 $con = " OR ";
-                if(is_array($value) && in_array('expression', $value))
+                if (is_array($value) && in_array('expression', $value))
                 {
                     $where .= $con . $value[1];
                     unset($data['where'][$key]);
@@ -87,7 +87,7 @@ class Crud {
             $values = array_merge($values, $valuesx);
         }
 
-        if(array_key_exists('search', $data))
+        if (array_key_exists('search', $data))
         {
             $i = 0;
             $where .= empty($where) ? " WHERE" : " AND";
@@ -100,11 +100,11 @@ class Crud {
             $values = array_merge($values, $valuesx);
         }
 
-        if(array_key_exists('order', $data))
+        if (array_key_exists('order', $data))
         {
             $where .= " ORDER BY ". $data['order'];
         }
-        if(array_key_exists("limit", $data))
+        if (array_key_exists("limit", $data))
         {
             $where .= " LIMIT ". $data['limit'];
         }
@@ -115,7 +115,7 @@ class Crud {
         $select->execute($values);
         if($select->rowCount() > 0)
         {
-            if($return_type == 'row')
+            if ($return_type == 'row')
             {
                 return $select->fetch(\PDO::FETCH_ASSOC);
             }
@@ -130,7 +130,7 @@ class Crud {
 
         $datax = "";
         $values = [];
-        if(count($data) > 0)
+        if (count($data) > 0)
         {
             $i = 0; 
             foreach($data as $key => $value)
@@ -143,7 +143,7 @@ class Crud {
         }
 
         $whre = "";
-        if(count($where) > 0)
+        if (count($where) > 0)
         { 
             $whre .= " WHERE ";
             $i = 0; 
@@ -160,7 +160,7 @@ class Crud {
         $update = "UPDATE ".$table." SET ".$datax . $whre;
         $update = $db->prepare($update);
         $update->execute($values);
-        if($update)
+        if ($update)
         {
             return true;
         }
@@ -173,7 +173,7 @@ class Crud {
 
         $values = [];
         $whre = "";
-        if(count($where) > 0)
+        if (count($where) > 0)
         { 
             $whre .= " WHERE ";
             $i = 0; 
@@ -188,7 +188,7 @@ class Crud {
         $delete = "DELETE FROM ".$table . $whre;
         $delete = $db->prepare($delete);
         $delete->execute($values);
-        if($delete)
+        if ($delete)
         {
             return true;
         }

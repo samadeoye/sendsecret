@@ -87,102 +87,102 @@ require_once 'includes/header.php';
 <!-- Additional JavaScript -->
 <?php
 $arAdditionalJsOnLoad[] = <<<EOQ
-$('#encodeForm #btnSubmit').click(function(){
-    var formId = '#encodeForm';
-    var senderName = $(formId+' #senderName').val();
-    var plainMsg = $(formId+' #plainMsg').val();
-    var secretKey = $(formId+' #secretKey').val();
+    $('#encodeForm #btnSubmit').click(function(){
+        var formId = '#encodeForm';
+        var senderName = $(formId+' #senderName').val();
+        var plainMsg = $(formId+' #plainMsg').val();
+        var secretKey = $(formId+' #secretKey').val();
 
-    if (senderName.length < 3 || senderName.length > 150)
-    {
-        throwError('Please enter a valid name');
-    }
-    else if (plainMsg.length < 5)
-    {
-        throwError('Please enter a valid message');
-    }
-    else if (plainMsg.length > 500)
-    {
-        throwError('Your message cannot comtain more than 500 characters.');
-    }
-    else if (secretKey.length < 4 || secretKey.length > 4)
-    {
-        throwError('Secret key must contain exactly four characters.');
-    }
-    else
-    {
-        var form = $('#encodeForm');
-        $.ajax({
-            url: 'includes/actions',
-            type: 'POST',
-            dataType: 'json',
-            data: form.serialize(),
-            beforeSend: function() {
-                enableDisableBtn(formId+' #btnSubmit', 0);
-            },
-            complete: function() {
-                enableDisableBtn(formId+' #btnSubmit', 1);
-            },
-            success: function(data)
-            {
-                if(data.status)
+        if (senderName.length < 3 || senderName.length > 150)
+        {
+            throwError('Please enter a valid name');
+        }
+        else if (plainMsg.length < 5)
+        {
+            throwError('Please enter a valid message');
+        }
+        else if (plainMsg.length > 500)
+        {
+            throwError('Your message cannot comtain more than 500 characters.');
+        }
+        else if (secretKey.length < 4 || secretKey.length > 4)
+        {
+            throwError('Secret key must contain exactly four characters.');
+        }
+        else
+        {
+            var form = $('#encodeForm');
+            $.ajax({
+                url: 'includes/actions',
+                type: 'POST',
+                dataType: 'json',
+                data: form.serialize(),
+                beforeSend: function() {
+                    enableDisableBtn(formId+' #btnSubmit', 0);
+                },
+                complete: function() {
+                    enableDisableBtn(formId+' #btnSubmit', 1);
+                },
+                success: function(data)
                 {
-                    throwSuccess('Message successfully encoded. Please copy your reference and keep it safe.');
-                    form[0].reset();
-                    throwAlert('Message Reference: <b>'+data.data.reference+'</b>', 'messageRef', 'warning');
+                    if(data.status)
+                    {
+                        throwSuccess('Message successfully encoded. Please copy your reference and keep it safe.');
+                        form[0].reset();
+                        throwAlert('Message Reference:<br><b>'+data.data.reference+'</b>', 'messageRef', 'warning');
+                    }
+                    else
+                    {
+                        throwError(data.msg);
+                    }
                 }
-                else
-                {
-                    throwError(data.msg);
-                }
-            }
-        });
-    }
-});
+            });
+        }
+    });
 
-$('#decodeForm #btnSubmit').click(function(){
-    var formId = '#decodeForm';
-    var messageRef = $(formId+' #messageRef').val();
-    var secretKey = $(formId+' #secretKey').val();
+    $('#decodeForm #btnSubmit').click(function(){
+        var formId = '#decodeForm';
+        var messageRef = $(formId+' #messageRef').val();
+        var secretKey = $(formId+' #secretKey').val();
 
-    if (messageRef.length < 13 || messageRef.length > 13)
-    {
-        throwError('Please enter a valid reference');
-    }
-    else if (secretKey.length < 4 || secretKey.length > 4)
-    {
-        throwError('Please enter a valid secret key');
-    }
-    else
-    {
-        var form = $('#decodeForm');
-        $.ajax({
-            url: 'includes/actions',
-            type: 'POST',
-            dataType: 'json',
-            data: form.serialize(),
-            beforeSend: function() {
-                enableDisableBtn(formId+' #btnSubmit', 0);
-            },
-            complete: function() {
-                enableDisableBtn(formId+' #btnSubmit', 1);
-            },
-            success: function(data)
-            {
-                if(data.status)
+        if (messageRef.length < 13 || messageRef.length > 13)
+        {
+            throwError('Please enter a valid reference');
+        }
+        else if (secretKey.length < 4 || secretKey.length > 4)
+        {
+            throwError('Please enter a valid secret key');
+        }
+        else
+        {
+            var form = $('#decodeForm');
+            $.ajax({
+                url: 'includes/actions',
+                type: 'POST',
+                dataType: 'json',
+                data: form.serialize(),
+                beforeSend: function() {
+                    enableDisableBtn(formId+' #btnSubmit', 0);
+                },
+                complete: function() {
+                    enableDisableBtn(formId+' #btnSubmit', 1);
+                },
+                success: function(data)
                 {
-                    throwSuccess('Message successfully decoded. See your message below.');
-                    form[0].reset();
-                    throwAlert('<b>Plain Message:</b><br>'+data.data.message, 'message', 'success');
+                    if(data.status)
+                    {
+                        throwSuccess('Message successfully decoded. See your message below.');
+                        form[0].reset();
+                        throwAlert('<b>Plain Message:</b><br>'+data.data.message, 'message', 'success');
+                    }
+                    else
+                    {
+                        throwError(data.msg);
+                    }
                 }
-                else
-                {
-                    throwError(data.msg);
-                }
-            }
-        });
-    }
-});
+            });
+        }
+    });
 EOQ;
 ?>
 

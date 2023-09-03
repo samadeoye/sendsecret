@@ -25,6 +25,10 @@ class Message
         
         if (!empty($messageCode))
         {
+            /*
+                We won't store the user's secret key,
+                hence, the decryption cannot be completed with only the available data on the system
+            */
             $reference = uniqid();
             $data = [
                 'reference' => $reference,
@@ -88,8 +92,10 @@ class Message
     {
         $encryptionMethod = DEF_MESSAGE_ENCRYPTION_METHOD;
         $secretKey = hash('sha256', DEF_MESSAGE_SECRET_KEY);
+        //hash the user secret key to use as IV, and grab only 16 bytes
         $userSecretKey = substr(hash('sha256', $userSecretKey), 0, 16);
-        $secretKey .= $userSecretKey;
+        //concatenate the user secret key with the system key and use as the encryption key
+        $secretKey = $userSecretKey . $secretKey;
         
         $output = openssl_encrypt($message, $encryptionMethod, $secretKey, 0, $userSecretKey);
         $messageCode = base64_encode($output);
@@ -101,8 +107,10 @@ class Message
     {
         $encryptionMethod = DEF_MESSAGE_ENCRYPTION_METHOD;
         $secretKey = hash('sha256', DEF_MESSAGE_SECRET_KEY);
+        //hash the user secret key to use as IV, and grab only 16 bytes
         $userSecretKey = substr(hash('sha256', $userSecretKey), 0, 16);
-        $secretKey .= $userSecretKey;
+        //concatenate the user secret key with the system key and use as the encryption key
+        $secretKey = $userSecretKey . $secretKey;
         
         $message = openssl_decrypt(base64_decode($messageCode), $encryptionMethod, $secretKey, 0, $userSecretKey);
         
