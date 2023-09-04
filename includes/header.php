@@ -13,7 +13,7 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link <?=markAsActivePage('index.php');?>" aria-current="page" href="<?=DEF_FULL_BASE_PATH_URL;?>">Home</a>
+                            <a class="nav-link <?=markAsActivePage('index.php');?>" aria-current="page" href="<?=DEF_ROOT_PATH;?>">Home</a>
                         </li>
                         <?php
                         if (!isset($_SESSION['sendSecretUser']))

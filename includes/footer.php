@@ -7,7 +7,7 @@
                     <div class="d-flex justify-content-center align-items-center">
                         <ul class="list-inline list-unstyled">
                             <li class="list-inline-item">
-                                <a href="<?=DEF_FULL_BASE_PATH_URL;?>" class="text-white text-decoration-none">Home</a> | 
+                                <a href="<?=DEF_ROOT_PATH;?>" class="text-white text-decoration-none">Home</a> | 
                             </li>
                             <?php
                             if (isset($_SESSION['sendSecretUser']))

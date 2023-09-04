@@ -14,6 +14,7 @@ if ($httpHost == 'localhost')
 }
 $fullPathUrl = $httpHost . $httpFolderPath;
 define('DEF_FULL_BASE_PATH_URL', $fullPathUrl);
+define('DEF_ROOT_PATH', $httpFolderPath);
 define('DEF_DOC_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/'. $httpFolderPath . '/');
 define('DEF_IS_PRODUCTION', $isProductionServer);
 
