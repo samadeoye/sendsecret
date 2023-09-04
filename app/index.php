@@ -50,7 +50,7 @@ $acceptSenderName = false;
                             <textarea class="form-control" id="plainMsg" name="plainMsg" cols="30" rows="10"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="secretKey" class="form-label">Secret Key</label>
+                            <label for="secretKey" class="form-label">Secret Key <small>(Only 4 characters)</small></label>
                             <p><small>You give this to the receiver</small></p>
                             <input type="text" class="form-control" id="secretKey" name="secretKey">
                         </div>
