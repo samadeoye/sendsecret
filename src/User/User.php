@@ -102,12 +102,12 @@ class User
         {
             //send password reset email
             $token = uniqid();
-            $name = $row['fname'] .' '. $row['lname'];
+            $name = $row['first_name'] .' '. $row['last_name'];
             $siteName = SITE_NAME;
             $siteUrl = SITE_URL;
 
             $body = <<<EOQ
-                Dear {$row['fname']},<br>
+                Dear {$row['first_name']},<br>
                 Use the link below to complete your password reset on {$siteName}.<br>
                 <a href="{$siteUrl}/auth/resetpassword?token={$token}">Reset Password</a>
 
