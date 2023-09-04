@@ -42,6 +42,6 @@
     </div>
 
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-        © <?=date('Y');?> Copyright <a class="text-white" href="<?=SITE_URL;?>"> <?=SITE_NAME;?> </a>
+        © <?=date('Y');?> Copyright <a class="text-white" href="<?=DEF_ROOT_PATH;?>"> <?=SITE_NAME;?> </a>
     </div>
 </footer>

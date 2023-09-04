@@ -1,10 +1,10 @@
 <?php
 if(DEF_IS_PRODUCTION)
 {
-    $serverName = "";
-    $dbName = "";
-    $userName = "";
-    $password = "";
+    $serverName = "localhost";
+    $dbName = "cstvcom_sendsecret";
+    $userName = "cstvcom_sendsecret";
+    $password = "48uO?6gE}E9F";
 }
 else
 {
