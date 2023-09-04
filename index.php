@@ -64,6 +64,7 @@ $acceptSenderName = false;
                             <input type="text" class="form-control" id="secretKey" name="secretKey">
                         </div>
                         <button type="submit" class="btn btn-light" id="btnSubmit">ENCODE</button>
+                        <input type="hidden" id="encodedMessageReference">
                         <div id="messageRef" class="mt-3"></div>
                     </form>
                 </div>
@@ -115,7 +116,15 @@ $arAdditionalJsFunctions[] = <<<EOQ
                 {
                     throwSuccess('Message successfully encoded. Please copy your reference and keep it safe.');
                     form[0].reset();
-                    throwAlert('Message Reference:<br><b>'+data.data.reference+'</b>', 'messageRef', 'warning');
+                    $(formId+' #encodedMessageReference').val(data.data.reference);
+                    throwAlert(
+                        'Message Reference:<br><b>'+data.data.reference+'</b> '+
+                        '<div class="sendSecretTooltip" onclick="copyMessageRef()"> '+
+                            '<i class="fas fa-copy text-primary cursor-pointer"></i> '+
+                            '<span class="tooltiptext">Copy Reference</span> '+
+                        '</div>'
+                        , 'messageRef', 'warning'
+                    );
                 }
                 else
                 {
@@ -123,6 +132,20 @@ $arAdditionalJsFunctions[] = <<<EOQ
                 }
             }
         });
+    }
+
+    function copyMessageRef(messageRefWrapperId)
+    {
+        if (messageRefWrapperId == undefined || messageRefWrapperId == '')
+        {
+            messageRefWrapperId = 'encodedMessageReference';
+        }
+        var messageRefWrapper = $('#'+messageRefWrapperId);
+        messageRefWrapper.attr('type', 'text');
+        messageRefWrapper.select();
+        document.execCommand('copy');
+        throwSuccess('Copied to clipboard');
+        messageRefWrapper.attr('type', 'hidden');
     }
 EOQ;
 
