@@ -4,7 +4,7 @@ require_once '../includes/utils.php';
 //redirect user to the dashboard if already logged in
 if (isset($_SESSION['sendSecretUser']))
 {
-    header('location: '.DEF_FULL_BASE_PATH_URL.'/app');
+    header('location: '.DEF_ROOT_PATH.'/app');
 }
 
 require_once DEF_DOC_ROOT.'includes/head.php';

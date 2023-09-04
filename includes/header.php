@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand text-white text-decoration-none fw-bold pe-4" href="<?=DEF_FULL_BASE_PATH_URL;?>"><?=SITE_NAME;?></a>
+            <a class="navbar-brand text-white text-decoration-none fw-bold pe-4" href="<?=DEF_ROOT_PATH;?>"><?=SITE_NAME;?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sendSecretNavBar" aria-controls="sendSecretNavBar" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>

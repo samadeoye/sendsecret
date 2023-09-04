@@ -6,12 +6,12 @@ if (isset($_GET['token']))
     $token = trim($_GET['token']);
     if (strlen($token) != 36)
     {
-        header('location: '.DEF_FULL_BASE_PATH_URL.'/auth/forgotpassword');
+        header('location: '.DEF_ROOT_PATH.'/auth/forgotpassword');
     }
 }
 else
 {
-    header('location: '.DEF_FULL_BASE_PATH_URL.'/auth/forgotpassword');
+    header('location: '.DEF_ROOT_PATH.'/auth/forgotpassword');
 }
 
 require_once DEF_DOC_ROOT.'includes/head.php';
