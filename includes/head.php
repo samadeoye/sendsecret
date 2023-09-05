@@ -5,6 +5,7 @@
     <base href="<?php echo DEF_ROOT_PATH; ?>/">
     <title> <?=SITE_NAME;?> - Home </title>
     <meta name="author" content="Samuel Adeoye">
+    <link rel="icon" href="assets/images/sendsecret_icon.png" type="image/png">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
