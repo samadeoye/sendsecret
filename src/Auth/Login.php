@@ -3,7 +3,6 @@ namespace SendSecret\Auth;
 
 use Exception;
 use SendSecret\Crud\Crud;
-use SendSecret\User\User;
 
 class Login
 {
@@ -26,6 +25,7 @@ class Login
         );
         if ($row)
         {
+            //check that account is not disabled
             if ($row['status'] != 1)
             {
                 throw new Exception('Your account is disabled. Please contact the admin.');
@@ -36,7 +36,7 @@ class Login
             }
             else
             {
-                //login
+                //create a new user session
                 $_SESSION['sendSecretUser'] = $row;
             }
         }

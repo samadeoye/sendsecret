@@ -1,6 +1,10 @@
 <?php
 require_once '../includes/utils.php';
 
+/*
+check that a valid token is passed to the url
+redirect back to the reset password starting page if not valid
+*/
 if (isset($_GET['token']))
 {
     $token = trim($_GET['token']);

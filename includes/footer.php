@@ -10,6 +10,7 @@
                                 <a href="<?=DEF_ROOT_PATH;?>" class="text-white text-decoration-none">Home</a> | 
                             </li>
                             <?php
+                            //show the dashboard link only when user is logged-in
                             if (isset($_SESSION['sendSecretUser']))
                             { ?>
                                 <li class="list-inline-item">
@@ -18,7 +19,9 @@
                             <?php
                             }
                             else
-                            { ?>
+                            {
+                                //shows only when user is not logged-in
+                                ?>
                                 <li class="list-inline-item">
                                     <a href="auth/login" class="text-white text-decoration-none">Login</a> | 
                                 </li>
@@ -37,7 +40,7 @@
         <hr class="mb-4" />
 
         <section class="mb-4 text-center">
-            <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/samadeoye/sendsecret" role="button"><i class="fab fa-github"></i></a>
+            <a class="btn btn-outline-light btn-floating m-1" href="<?=DEF_GITHUB_URL;?>" role="button"><i class="fab fa-github"></i></a>
         </section>
     </div>
 

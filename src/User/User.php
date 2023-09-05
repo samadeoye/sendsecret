@@ -10,6 +10,7 @@ class User
     static $table = DEF_TBL_USERS;
     static $tablePasswordReset = DEF_TBL_PASSWORD_RESET;
     static $data = [];
+    //get details of a user
     public static function getUser($id, $arFields=['*'])
     {
         $fields = is_array($arFields) ? implode(',', $arFields) : $arFields;
@@ -24,6 +25,7 @@ class User
         );
     }
 
+    //update a user's data
     public static function updateUser()
     {
         global $userId;
@@ -42,6 +44,7 @@ class User
         );
         if ($update)
         {
+            //update the user session
             $row = array_merge($_SESSION['sendSecretUser'], $data);
             $_SESSION['sendSecretUser'] = $row;
             self::$data = $data;
@@ -77,6 +80,7 @@ class User
         );
         if ($update)
         {
+            //updae the password in the user session
             $_SESSION['sendSecretUser']['password'] = $newPassword;
         }
         else
@@ -85,6 +89,7 @@ class User
         }
     }
 
+    //send an email to user for password reset
     public static function sendPasswordResetEmail()
     {
         $email = strtolower(trim($_REQUEST['email']));
@@ -124,6 +129,7 @@ EOQ;
             SendMail::sendMail($arParams);
             if (SendMail::$isSent)
             {
+                //log the data sent
                 $data = [
                     'email' => $email,
                     'token' => $token,
@@ -153,7 +159,7 @@ EOQ;
             throw new Exception('Passwords do not match!');
         }
 
-        //check if a log entry exist with the token and email
+        //check if a log entry exists with the token and email
         $row = Crud::select(
             self::$tablePasswordReset,
             [

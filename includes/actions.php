@@ -11,6 +11,7 @@ if ($action == '')
     getJsonRow(false, 'Invalid request!');
 }
 
+//get the request paramaters and their validations
 $params = Param::getRequestParams($action);
 doValidateRequestParams($params);
 
@@ -51,6 +52,7 @@ try
     }
 
     $db->commit();
+    //if data is passed from the action class, return it to the client side
     if (count($data) > 0)
     {
         $datax = [

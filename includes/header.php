@@ -16,6 +16,7 @@
                             <a class="nav-link <?=markAsActivePage('index.php');?>" aria-current="page" href="<?=DEF_ROOT_PATH;?>">Home</a>
                         </li>
                         <?php
+                        //show login and register link for only guest users (i.e., users who are not logged-in)
                         if (!isset($_SESSION['sendSecretUser']))
                         { ?>
                             <li class="nav-item">
@@ -27,7 +28,9 @@
                         <?php
                         }
                         else
-                        { ?>
+                        {
+                            //show the account menu only when user is logged-in
+                            ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle <?=markAsActivePage('account');?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Account

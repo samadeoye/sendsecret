@@ -16,10 +16,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <?php
-      if (count($arAdditionalCSS) > 0)
-      {
-        echo implode(PHP_EOL, $arAdditionalCSS);
-      }
+    //this will be added to the existing CSS
+    if (count($arAdditionalCSS) > 0)
+    {
+      echo implode(PHP_EOL, $arAdditionalCSS);
+    }
     ?>
 
 </head>

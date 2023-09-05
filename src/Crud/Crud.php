@@ -1,7 +1,9 @@
 <?php
 namespace SendSecret\Crud;
 
-class Crud {
+class Crud
+{
+    //insert data into DB
     public static function insert($table, $data)
     {
         global $db;
@@ -23,6 +25,7 @@ class Crud {
         return false;
     }
 
+    //fetch data from DB
     public static function select($table, $data=[])
     {
         global $db;
@@ -46,6 +49,7 @@ class Crud {
                 $i = 0;
                 foreach($data['where'] as $key => $value)
                 {
+                    //skip AND for the first iteration
                     $con = ($i > 0) ? " AND " : "";
                     if($key == 'expression')
                     {
@@ -83,6 +87,7 @@ class Crud {
                 }
                 $i++;
             }
+            //grab the values of the orWhere array
             $valuesx = array_values($data['orWhere']);
             $values = array_merge($values, $valuesx);
         }
@@ -124,6 +129,7 @@ class Crud {
         return [];
     }
 
+    //update data on DB
     public static function update($table, $data, $where)
     {
         global $db;
@@ -135,6 +141,7 @@ class Crud {
             $i = 0; 
             foreach($data as $key => $value)
             {
+                //skip comma for the first iteration
                 $comma = ($i > 0) ? ", " : "";
                 $datax .= $comma . $key . " = ?";
                 $i++;
@@ -149,6 +156,7 @@ class Crud {
             $i = 0; 
             foreach($where as $key => $value)
             {
+                //skip AND for the first iteration
                 $and = ($i > 0) ? " AND " : "";
                 $whre .= $and . $key . " = ?";
                 $i++;
@@ -167,6 +175,7 @@ class Crud {
         return false;
     }
 
+    //delete data from DB
     public static function delete($table, $where=[])
     {
         global $db;

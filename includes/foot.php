@@ -7,6 +7,7 @@
 $(document).ready(function()
 {
   <?php
+  //this will be added to the JavaScript on load
   if (count($arAdditionalJsOnLoad) > 0)
   {
     echo implode(PHP_EOL, $arAdditionalJsOnLoad);
@@ -17,6 +18,7 @@ $(document).ready(function()
 
 <script>
 <?php
+//this will be added to the JavaScript functions
 if (count($arAdditionalJsFunctions) > 0)
 {
   echo implode(PHP_EOL, $arAdditionalJsFunctions);
@@ -24,6 +26,7 @@ if (count($arAdditionalJsFunctions) > 0)
 ?>
 </script>
 <?php
+//this will be added to the JavaScript code
 if (count($arAdditionalJsScript) > 0)
 {
   echo implode(PHP_EOL, $arAdditionalJsScript);

@@ -3,6 +3,7 @@ namespace SendSecret\Param;
 
 class Param
 {
+    //returns the expected parameters for each request with its respective validations
     public static function getRequestParams($action)
     {
         $data = [];

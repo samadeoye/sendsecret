@@ -4,7 +4,6 @@ require_once DEF_DOC_ROOT.'includes/head.php';
 require_once DEF_DOC_ROOT.'includes/header.php';
 ?>
 
-
 <div class="container">
     <div class="row">
         <div class="col-md-12 pt-5 pb-4 text-center">

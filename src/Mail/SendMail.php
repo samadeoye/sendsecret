@@ -90,8 +90,8 @@ class SendMail
         catch (Exception $e)
         {
             self::$isSent = false;
-            //throw new Exception('Message could not be sent');
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            throw new Exception('Message could not be sent');
+            //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
 }

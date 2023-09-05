@@ -19,7 +19,7 @@ class Register
 
         if ($password != $passwordConfirm)
         {
-            getJsonRow(false, 'Passwords do not match');
+            throw new Exception('Passwords do not match');
         }
 
         //check if a user exists with the same email

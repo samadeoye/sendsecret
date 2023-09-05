@@ -43,6 +43,7 @@ $acceptSenderName = false;
                     <form id="encodeForm" onsubmit="return false;">
                         <input type="hidden" id="action" name="action" value="encodeMessage">
                         <?php
+                            //show name input field for only guest users (i.e., users who are not logged-in)
                             if (!isset($_SESSION['sendSecretUser']))
                             {
                                 $acceptSenderName = true; ?>

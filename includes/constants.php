@@ -6,6 +6,7 @@ define('PROJECT_FOLDER', 'sendsecret');
 define('SITE_MAIL_FROM_EMAIL', SITE_MAIL);
 define('SITE_MAIL_FROM_NAME', SITE_NAME);
 define('SITE_ABR', 'SNDSEC');
+define('DEF_GITHUB_URL', 'https://github.com/samadeoye/sendsecret');
 
 //TABLES
 define('DEF_TBL_USERS', 'users');
