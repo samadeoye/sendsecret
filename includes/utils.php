@@ -13,6 +13,7 @@ if ($httpHost == 'localhost')
 }
 define('DEF_ROOT_PATH', $httpFolderPath);
 define('DEF_DOC_ROOT', $_SERVER['DOCUMENT_ROOT'] .'/'. $httpFolderPath . '/');
+define('DEF_FULL_ROOT_PATH', $httpHost.$httpFolderPath);
 define('DEF_IS_PRODUCTION', $isProductionServer);
 
 require_once DEF_DOC_ROOT.'vendor/autoload.php';

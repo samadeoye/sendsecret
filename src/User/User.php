@@ -104,12 +104,12 @@ class User
             $token = uniqid();
             $name = $row['first_name'] .' '. $row['last_name'];
             $siteName = SITE_NAME;
-            $siteUrl = SITE_URL;
+            $siteRootPath = DEF_FULL_ROOT_PATH;
 
             $body = <<<EOQ
                 Dear {$row['first_name']},<br>
                 Use the link below to complete your password reset on {$siteName}.<br>
-                <a href="{$siteUrl}/auth/resetpassword?token={$token}">Reset Password</a>
+                <a href="{$siteRootPath}/auth/resetpassword?token={$token}">Reset Password</a>
 
 EOQ;
 
