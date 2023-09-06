@@ -112,8 +112,8 @@ class User
             $siteRootPath = DEF_FULL_ROOT_PATH;
 
             $body = <<<EOQ
-                Dear {$row['first_name']},<br>
-                Use the link below to complete your password reset on {$siteName}.<br>
+                Dear {$row['first_name']},<br><br>
+                Use the link below to complete your password reset on {$siteName}.<br><br>
                 <a href="{$siteRootPath}/auth/resetpassword?token={$token}">Reset Password</a>
 
 EOQ;

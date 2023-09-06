@@ -78,7 +78,7 @@ class Message
         $rs = Crud::select(
             self::$table,
             [
-                'columns' => 'message_code',
+                'columns' => 'message_code, sender_name',
                 'where' => [
                     'reference' => $messageRef
                 ]
@@ -91,6 +91,11 @@ class Message
             
             if (!empty($message))
             {
+                $senderName = $rs['sender_name'];
+                $message = <<<EOQ
+                <b>Sender:</b> {$senderName}<br>
+                <b>Message:</b> {$message}
+EOQ;
                 self::$data = [
                     'message' => $message
                 ];

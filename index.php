@@ -219,7 +219,7 @@ $arAdditionalJsOnLoad[] = <<<EOQ
                     {
                         throwSuccess('Message successfully decoded. See your message below.');
                         form[0].reset();
-                        throwAlert('<b>Plain Message:</b><br>'+data.data.message, 'message', 'success');
+                        throwAlert(data.data.message, 'message', 'success');
                     }
                     else
                     {
