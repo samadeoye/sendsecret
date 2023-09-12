@@ -93,9 +93,9 @@ function doCheckParamIsValid($param, $data)
     }
     if (!empty($type) && !empty($value))
     {
-        if($type == 'string')
+        if ($type == 'string')
         {
-        if(!is_string($value))
+        if (!is_string($value))
         {
             $datax['status'] = false;
             $datax['msg'] = $label . ' must be a string.';
@@ -114,11 +114,11 @@ function doCheckParamIsValid($param, $data)
     }
     if ((!empty($value) && $isEmail) || (!empty($value) && trim($param) == 'email'))
     {
-        if(!filter_var($value, FILTER_VALIDATE_EMAIL))
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL))
         {
-        $datax['status'] = false;
-        $datax['msg'] = $label . ' must contain a valid email.';
-        return $datax;
+            $datax['status'] = false;
+            $datax['msg'] = $label . ' must contain a valid email.';
+            return $datax;
         }
     }
     if ($length[0] > 0 && $length[1] > 0 && $length[0] == $length[1] && !empty($value))
@@ -141,16 +141,16 @@ function doCheckParamIsValid($param, $data)
     if ($length[0] > 0 && !empty($value))
     {
         $isset = $isset && strlen($value) >= $length[0];
-        if(!$isset)
+        if (!$isset)
         {
             $datax['status'] = false;
-            if(strpos($param, '_id') !== false || $param == 'id')
+            if (strpos($param, '_id') !== false || $param == 'id')
             {
-            $datax['msg'] = $label . ' in invalid.';
+                $datax['msg'] = $label . ' in invalid.';
             }
             else
             {
-            $datax['msg'] = $label . ' must be greater than or equal to ' . $length[0] .' characters.';
+                $datax['msg'] = $label . ' must be greater than or equal to ' . $length[0] .' characters.';
             }
             return $datax;
         }
@@ -158,10 +158,10 @@ function doCheckParamIsValid($param, $data)
     if ($length[1] > 0 && !empty($value))
     {
         $isset = $isset && strlen($value) <= $length[1];
-        if(!$isset)
+        if (!$isset)
         {
             $datax['status'] = false;
-            if(strpos($param, '_id') !== false || $param == 'id')
+            if (strpos($param, '_id') !== false || $param == 'id')
             {
                 $datax['msg'] = $label . ' in invalid.';
             }
@@ -205,4 +205,13 @@ function getFormattedDate($date, $format='')
 function getAppReference()
 {
     return SITE_ABR.'-REF-'.strtoupper(uniqid());
+}
+
+//redirect user to login page if not logged in
+function checkIfUserSessionIsActive()
+{
+    if (!isset($_SESSION['sendSecretUser']))
+    {
+        header('location: '.DEF_ROOT_PATH.'/auth/login');
+    }
 }

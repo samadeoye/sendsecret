@@ -1,5 +1,7 @@
 <?php
 require_once '../includes/utils.php';
+checkIfUserSessionIsActive();
+
 require_once DEF_DOC_ROOT.'includes/head.php';
 require_once DEF_DOC_ROOT.'includes/header.php';
 ?>
