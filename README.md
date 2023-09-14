@@ -18,5 +18,5 @@ The receiver on the other hand, will enter the reference received from the sende
 - Download XAMPP at https://www.apachefriends.org/download.html
 - Follow the installation steps until completion
 - After installation, locate the the xampp/htdocs folder in the directory in which you have installed the software
-- Unzip the GitHubFolder, and unzip the sendsecret folder within
+- Unzip the FinalProduct folder, and unzip the sendsecret folder within
 - Copy the sendsecret directory which contains the code files & folders and paste into the xampp/htdocs folder
