@@ -11,6 +11,7 @@ The receiver on the other hand, will enter the reference received from the sende
 - Go to the 'includes' folder and copy the database file (sendsecret.sql)
 - Run the sql script on the DBMS to import the database and tables
 - Open the connect.php file in the 'includes' folder and update the database configuration settings for local/production depending on your environment
+- The userName and password will be the user name and password for the database server on local/live
 - If you are running on local, visit localhost/sendsecret on your browser to run the app
 - If running on a live server, visit your live url
 
